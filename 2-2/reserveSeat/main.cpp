@@ -7,12 +7,16 @@ void reservation() {
   constexpr int COL = 4;
   bool seats[ROW][COL]{};
 
+  char isEnd = 't';
+  char seat[2];
+
   // 좌석 입력, 갱신, 종료조건 만들기.
   // 02.55p
   // 화면 지우는거 system.cle
   // 화면 정지 system. 뭐? 녹음확인.
 
-  while (true) {
+  do {
+
     for (int i = 0; i < COL; i++) {
       cout << '\t' << i + 1;
     }
@@ -26,7 +30,38 @@ void reservation() {
 
       cout << endl;
     }
-  }
+
+    cout << "좌석을 선택하세요 (예. A1) : ";
+    cin >> seat;
+
+    while ((int)(seat[0] - 'A') >= ROW || (int)(seat[1] - '1') >= COL) {
+      cout << "잘못된 좌석입니다. 다시 선택해주세요 (예. A1) : ";
+      cin >> seat;
+    }
+
+    if (seats[(int)(seat[0] - 'A')][(int)(seat[1] - '1')] == false) {
+      seats[(int)(seat[0] - 'A')][(int)(seat[1] - '1')] = true;
+
+      for (int i = 0; i < COL; i++) {
+        cout << '\t' << i + 1;
+      }
+      cout << endl;
+      for (int i = 0; i < ROW; i++) {
+        cout << static_cast<char>('A' + i) << '\t';
+        for (int j = 0; j < COL; j ++) {
+          cout << (seats[i][j] ? "O" : "X") << '\t';
+        }
+        cout << endl;
+      }
+    } else {
+      cout << "예약 불가" << endl;
+    }
+
+    cout << "종료하시겠습니까? (y, n) : ";
+    cin >> isEnd;
+  } while (isEnd == 'n');
+
+  
 }
 
 int main(void) {

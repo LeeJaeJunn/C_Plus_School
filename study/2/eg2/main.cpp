@@ -96,9 +96,9 @@ void test7() {
 }
 
 void test8() {
-  string str;
+  string str, findStr;
   ifstream file("test.txt");
-  
+  size_t pos;
 
   if (!file.is_open()) {
     cout << "파일 읽기 실패" << endl;
@@ -108,13 +108,67 @@ void test8() {
   while (!file.eof()) {
     string str2;
     getline(file, str2);
+
+    cout << "this is a str2 : " << str2 << endl;
     // str += str2 + '\n';
     str.append(str2 + '\n');
   }
   cout << str << endl;
+
+  getline(cin, findStr);
+  cout << "찾을 문자열 : " << findStr << endl;
+
+  pos = str.find(findStr);
+  cout << "찾을 문자열 위치(pos) : " << pos << endl;
+
+  cout << str.substr(pos, findStr.length()) << endl;
 }
 
-// 15까지.
+void example1() {
+  const size_t SIZE = 5;
+  string names[SIZE];
+  cout << "이름 5명 입력 : ";
+  for (auto &i : names) {
+    cin >> i;
+  }
+
+  // sort(names, names + 5);
+
+  // 버블 정렬
+  for (int i = 0; i < SIZE - 1; i++) {
+    for (int j = 0; j < SIZE - 1 - i; j++) {
+      if (names[j] > names[j + 1]) {
+        swap(names[j], names[j + 1]);
+        
+      }
+    }
+  }
+  for (auto i : names) {
+    cout << i << endl;
+  }
+}
+
+void changeString() {
+  string str, findStr, changeStr;
+  ifstream file("test.txt");
+
+  cout << "찾을 문자열을 입력해주세요 : ";
+  getline(cin, findStr);
+  cout << "바꿀 문자열을 입력해주세요 : ";
+  getline(cin, changeStr);
+
+  if (!file.is_open()) {
+    cout << "파일 읽기 실패" << endl;
+    return;
+  }
+
+  while (!file.eof()) {
+    string str2;
+    getline(file, str2);
+    str.append(str2 + '\n');
+  }
+  cout << str << endl;
+}
 
 int main(void) {
   // test1();
@@ -124,7 +178,9 @@ int main(void) {
   // test5();
   // test6();
   // test7();
-  test8();
+  // test8();
+  // example1();
+  changeString();
 
   return 0;
 }
