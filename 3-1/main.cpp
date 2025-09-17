@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include <crtdbg.h>
+// 윈도우 전용
 #ifdef _DEBUG
 	#ifndef DBG_NEW
 		#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
