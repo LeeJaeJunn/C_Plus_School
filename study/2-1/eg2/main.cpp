@@ -85,14 +85,14 @@ void test6() {
 void test7() {
   string str1("Hello");
   string str2{"World!"};
-  cout << str1 << " " << str2 << endl;
-  cout << str1.append(str2, 0, 5) << endl;
-  cout << str1.insert(5, " ") << endl;
-  cout << str1.erase(5, 10) << endl;
-  cout << str1.replace(1, 4, "ELLO") << endl;
+  cout << str1 << " " << str2 << endl; 
+  cout << str1.append(str2, 0, 5) << endl; // HelloWorld!
+  cout << str1.insert(5, " ") << endl; // Hello World!
+  cout << str1.erase(5, 7) << endl; // Hello (index 5 부터 10개 지우기.)
+  cout << str1.replace(1, 4, "ELLO!") << endl; // HELLO (index 1부터 4개 문자를 지우고 ELLO 삽입)
 
   str1.swap(str2);
-  cout << str1 << " " << str2 << endl;
+  cout << str1 << " " << str2 << endl; // World! HELLO
 }
 
 void test8() {
@@ -152,11 +152,6 @@ void changeString() {
   string str, findStr, changeStr;
   ifstream file("test.txt");
 
-  cout << "찾을 문자열을 입력해주세요 : ";
-  getline(cin, findStr);
-  cout << "바꿀 문자열을 입력해주세요 : ";
-  getline(cin, changeStr);
-
   if (!file.is_open()) {
     cout << "파일 읽기 실패" << endl;
     return;
@@ -166,6 +161,18 @@ void changeString() {
     string str2;
     getline(file, str2);
     str.append(str2 + '\n');
+  }
+  cout << str << endl;
+
+  cout << "찾을 문자열을 입력해주세요 : ";
+  getline(cin, findStr);
+  cout << "바꿀 문자열을 입력해주세요 : ";
+  getline(cin, changeStr);
+
+  int pos = str.find(findStr);
+  while (pos != string::npos) {
+    str.replace(pos, changeStr.length(), changeStr);
+    pos = str.find(findStr);
   }
   cout << str << endl;
 }
@@ -184,3 +191,5 @@ int main(void) {
 
   return 0;
 }
+
+// ~ 19p

@@ -10,13 +10,7 @@ void reservation() {
   char isEnd = 't';
   char seat[2];
 
-  // 좌석 입력, 갱신, 종료조건 만들기.
-  // 02.55p
-  // 화면 지우는거 system.cle
-  // 화면 정지 system. 뭐? 녹음확인.
-
   do {
-
     for (int i = 0; i < COL; i++) {
       cout << '\t' << i + 1;
     }
