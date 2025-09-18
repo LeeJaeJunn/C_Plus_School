@@ -77,12 +77,13 @@ void test5() {
 
   const auto &s3 = getString();
 }
-
+// decltype은 constant, reference가 제거되지 않음.
 void test6() {
   // decltype(getString()) s3;
   // const string이랑 같음.
 
   decltype(auto) s3 = getString();
+  cout << s3 << endl; // Hello World
 }
 
 int main(void) {

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <crtdbg.h>
+// #include <crtdbg.h>
 // 윈도우 전용
 #ifdef _DEBUG
 	#ifndef DBG_NEW
@@ -52,7 +52,7 @@ void printArray(int *(&arr), const size_t SIZE) {
 
 int main(void) {
   // 맥에서는 사용불가능.
-  _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+  // _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
   cout << "202112711 이제준" << endl;
   int *arr = makeArray(10);
   printArray(arr, 10);
