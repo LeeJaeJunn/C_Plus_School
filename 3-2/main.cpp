@@ -2,6 +2,8 @@
 
 using namespace std;
 
+int;
+
 int main(void) {
   cout << "202112711 이제준" << endl;
 
