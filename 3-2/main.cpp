@@ -16,7 +16,14 @@ int **loadSeats(const string &fileName, int &row, int &col, int &reserved);
 void printSeats(int **&seats, const int row, const int col);
 void printMenu(int **&seats, const int row, const int col, int reserved);
 void reservedSeat(int **&seats, const int row, const int col, int &reserved);
-// 종료메뉴 선택 => 파일에 저장 후 메모리 삭제.
+void saveSeat(
+    const string &fileName,
+    int **&seats,
+    const int row,
+    const int col
+);
+void deleteSeat(int **&seats, const int row, const int col);
+// 좌석 취소 구문 만들기. 과제
 
 int main(void) {
   // 윈도우에서만.
@@ -33,6 +40,8 @@ int main(void) {
 
   // printSeats(seats, row, col);
   printMenu(seats, row, col, reserved);
+  saveSeat(fileName, seats, row, col);
+  deleteSeat(seats, row, col);
 
   // 출력은 ofstream
 
@@ -139,6 +148,35 @@ void reservedSeat(int **&seats, const int row, const int col, int &reserved) {
       cout << "예약 완료, 예약번호: " << num << " 입니다." << endl;
       break;
     }
-
   }
-} // 좌석선택하고 예약, 범위체크, 예약작업
+}
+
+void saveSeat(
+  const string &fileName,
+  int **&seats,
+  const int row,
+  const int col
+) {
+  ofstream file(fileName);
+  if (!file.is_open()) {
+    cout << "파일 오류" << endl;
+    return;
+  }
+  file << row << " " << col << endl;
+
+  for (int i = 0; i < row; i++) {
+    for (int j = 0; j < col; j++) {
+      file << seats[i][j] << " ";
+    }
+    file << endl;
+  }
+}
+
+// 메모리 정리 (누수방지.)
+void deleteSeat(int **&seats, const int row, const int col) {
+  for (int i = 0; i < row; i++) {
+    delete[] seats[i]; // 층 정보 삭제.
+  }
+  delete[] seats;
+  seats = nullptr;
+}
