@@ -16,6 +16,7 @@ int **loadSeats(const string &fileName, int &row, int &col, int &reserved);
 void printSeats(int **&seats, const int row, const int col);
 void printMenu(int **&seats, const int row, const int col, int reserved);
 void reservedSeat(int **&seats, const int row, const int col, int &reserved);
+void cancelSeat(int **&seats, const int row, const int col, int &reserved ); // 좌석취소
 void saveSeat(
     const string &fileName,
     int **&seats,
@@ -33,7 +34,8 @@ int main(void) {
   int row = 0, col = 0, reserved = 0;
   int **seats = loadSeats(fileName, row, col, reserved);
 
-  if (seats == nullptr) {
+  if (seats == nullptr)
+  {
     cout << "파일 읽기 실패" << endl;
     return 0;
   }
@@ -42,8 +44,6 @@ int main(void) {
   printMenu(seats, row, col, reserved);
   saveSeat(fileName, seats, row, col);
   deleteSeat(seats, row, col);
-
-  // 출력은 ofstream
 
   return 0;
 }
@@ -87,6 +87,7 @@ void printMenu(int **&seats, const int row, const int col, int reserved) {
   int selected = 0;
   
   do {
+    // system("cls"); // 윈도우
     system("clear");
     cout << "1)좌석현황\t2)좌석예약\t3)좌석취소\t4)종료" << endl;
     cout << "메뉴선택: ";
@@ -105,11 +106,12 @@ void printMenu(int **&seats, const int row, const int col, int reserved) {
       reservedSeat(seats, row, col, reserved);
       break;
     case 3:
+      cancelSeat(seats, row, col, reserved);
       break;
     case 4: 
       break;
     }
-    // system("pause");
+    // system("pause"); // window
     system("read -n 1 -s -p \"Press any key to continue...\"");
   } while (selected != 4);
 }
@@ -136,9 +138,13 @@ void reservedSeat(int **&seats, const int row, const int col, int &reserved) {
 
     if (r >= row || r < 0 || c >= col || c < 0) {
       cout << "잘못된 좌석 선택입니다. 다시 선택해주세요." << endl;
+      cin.clear();
+      cin.ignore(1024, '\n');
+      // system("pause"); // window
       system("read -n 1 -s -p \"Press any key to continue...\"");
     } else if (seats[r][c] != 0) {
       cout << "이미 예약된 좌석입니다. 다시 선택하세요." << endl;
+      // system("pause"); // window
       system("read -n 1 -s -p \"Press any key to continue...\"");
     } else {
       // 예약번호 생성. 아래 num을 중복되지 않게 고치기.
@@ -146,6 +152,70 @@ void reservedSeat(int **&seats, const int row, const int col, int &reserved) {
       seats[r][c] = num;
       reserved++;
       cout << "예약 완료, 예약번호: " << num << " 입니다." << endl;
+      break;
+    }
+  }
+}
+
+void cancelSeat(int **&seats, const int row, const int col, int &reserved ) {
+  char x;
+  int y;
+  int reserveId;
+
+  if (reserved == 0) {
+    cout << "예약된 좌석이 없습니다." << endl;
+    return;
+  }
+
+  while (true) {
+    system("clear");
+    printSeats(seats, row, col);
+    cout << "취소할 좌석을 입력해주세요 ex)A1 (종료: 00)" << endl;
+    cout << "좌석번호 입력: ";
+    cin >> x >> y;
+    if (x == '0' && y == 0) {
+      cout << "메뉴로 이동합니다" << endl;
+      break;
+    }
+    int r = x - 'A';
+    int c = y - 1;
+
+    if (r >= row || r < 0 || c >= col || c < 0) {
+      cout << "잘못된 좌석 선택입니다. 다시 선택해주세요." << endl;
+      cin.clear();
+      cin.ignore(1024, '\n');
+      // system("pause"); // window
+      system("read -n 1 -s -p \"Press any key to continue...\"");
+    } else if(seats[r][c] == 0) {
+      cout << "예약되지 않은 좌석입니다. 다시 선택해주세요" << endl;
+      // system("pause"); // window
+      system("read -n 1 -s -p \"Press any key to continue...\"");
+    } else {
+      while (true) {
+        cout << "예약번호를 입력해 주세요(선택좌석:" << x<<y << " 종료: 0)" << endl;
+        cout << "예약번호 입력: ";
+        cin >> reserveId;
+        if (cin.fail()) {
+          cout << "예약번호가 잘못 입력되었습니다. 다시 입력해주세요." << endl;
+          cin.clear(); 
+          cin.ignore(1024, '\n');
+          continue;
+        }
+
+        if (reserveId == 0) {
+          break;
+        }
+
+        if (seats[r][c] == reserveId) {
+          seats[r][c] = 0;
+          reserved--;
+          cout << "취소 완료"  << endl;
+          break;
+
+        } else {
+          cout << "예약번호가 잘못 입력되었습니다. 다시 입력해주세요." << endl;
+        }
+      }
       break;
     }
   }
