@@ -16,7 +16,7 @@ int **loadSeats(const string &fileName, int &row, int &col, int &reserved);
 void printSeats(int **&seats, const int row, const int col);
 void printMenu(int **&seats, const int row, const int col, int reserved);
 void reservedSeat(int **&seats, const int row, const int col, int &reserved);
-void cancelSeat(int **&seats, const int row, const int col, int &reserved ); // 좌석취소
+void cancelSeat(int **&seats, const int row, const int col, int &reserved );
 void saveSeat(
     const string &fileName,
     int **&seats,
@@ -24,7 +24,6 @@ void saveSeat(
     const int col
 );
 void deleteSeat(int **&seats, const int row, const int col);
-// 좌석 취소 구문 만들기. 과제
 
 int main(void) {
   // 윈도우에서만.
