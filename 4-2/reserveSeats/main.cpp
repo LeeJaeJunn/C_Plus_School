@@ -12,16 +12,18 @@
 #endif
 
 using namespace std;
-using uniqueDPtr = unique_ptr<unique_ptr<int[]>[]>;
+// using uniqueDPtr = unique_ptr<unique_ptr<int[]>[]>;
 
-uniqueDPtr loadSeats(const string &fileName, int &row, int &col, int &reserved); 
-void printSeats(uniqueDPtr &seats, const int row, const int col);
-void printMenu(uniqueDPtr &seats, const int row, const int col, int reserved);
-void reservedSeat(uniqueDPtr &seats, const int row, const int col, int &reserved);
-void cancelSeat(uniqueDPtr &seats, const int row, const int col, int &reserved );
+using sharedDPtr = shared_ptr<shared_ptr<int[]>[]>;
+
+sharedDPtr loadSeats(const string &fileName, int &row, int &col, int &reserved); 
+void printSeats(sharedDPtr &seats, const int row, const int col);
+void printMenu(sharedDPtr &seats, const int row, const int col, int reserved);
+void reservedSeat(sharedDPtr &seats, const int row, const int col, int &reserved);
+void cancelSeat(sharedDPtr &seats, const int row, const int col, int &reserved );
 void saveSeat(
     const string &fileName,
-    uniqueDPtr &seats,
+    sharedDPtr &seats,
     const int row,
     const int col
 );
@@ -33,8 +35,8 @@ int main(void) {
   cout << "202112711 이제준" << endl;
   string fileName = "seats.txt";
   int row = 0, col = 0, reserved = 0;
-  // int **seats = loadSeats(fileName, row, col, reserved);
-  uniqueDPtr seats = loadSeats(fileName, row, col, reserved);
+  // uniqueDPtr seats = loadSeats(fileName, row, col, reserved);
+  sharedDPtr seats = loadSeats(fileName, row, col, reserved);
 
 
   if (seats == nullptr)
@@ -50,14 +52,15 @@ int main(void) {
   return 0;
 }
 
-uniqueDPtr loadSeats(const string &fileName, int &row, int &col, int &reserved) {
+sharedDPtr loadSeats(const string &fileName, int &row, int &col, int &reserved) {
   ifstream file(fileName);
   if (!file.is_open()) {
     return nullptr;
   }
   file >> row >> col;
   
-  uniqueDPtr seats = make_unique<unique_ptr<int[]>[]>(row); // 2차원 배열 생성.
+  // uniqueDPtr seats = make_unique<unique_ptr<int[]>[]>(row); // 2차원 배열 생성.
+  sharedDPtr seats = make_shared<shared_ptr<int[]>[]>(row); // 2차원 배열 생성.
   for (int i = 0; i < row; i ++) {
     seats[i] = make_unique<int[]>(col); // new int[col];
     for (int j = 0; j < col; j++) {
@@ -70,7 +73,7 @@ uniqueDPtr loadSeats(const string &fileName, int &row, int &col, int &reserved) 
   return seats;
 }
 
-void printSeats(uniqueDPtr &seats, const int row, const int col) {
+void printSeats(sharedDPtr &seats, const int row, const int col) {
   for (int i = 0; i < col; i++) {
     cout << '\t' << i + 1;
   }
@@ -85,7 +88,7 @@ void printSeats(uniqueDPtr &seats, const int row, const int col) {
   }
 }
 
-void printMenu(uniqueDPtr &seats, const int row, const int col, int reserved) {
+void printMenu(sharedDPtr &seats, const int row, const int col, int reserved) {
   int selected = 0;
   
   do {
@@ -118,7 +121,7 @@ void printMenu(uniqueDPtr &seats, const int row, const int col, int reserved) {
   } while (selected != 4);
 }
 
-void reservedSeat(uniqueDPtr &seats, const int row, const int col, int &reserved) {
+void reservedSeat(sharedDPtr &seats, const int row, const int col, int &reserved) {
   if (row * col == reserved) {
     cout << "좌석 예약 마감" << endl;
     return;
@@ -158,7 +161,7 @@ void reservedSeat(uniqueDPtr &seats, const int row, const int col, int &reserved
   }
 }
 
-void cancelSeat(uniqueDPtr &seats, const int row, const int col, int &reserved ) {
+void cancelSeat(sharedDPtr &seats, const int row, const int col, int &reserved ) {
   char x;
   int y;
   int reserveId;
@@ -225,7 +228,7 @@ void cancelSeat(uniqueDPtr &seats, const int row, const int col, int &reserved )
 
 void saveSeat(
   const string &fileName,
-  uniqueDPtr &seats,
+  sharedDPtr &seats,
   const int row,
   const int col
 ) {
