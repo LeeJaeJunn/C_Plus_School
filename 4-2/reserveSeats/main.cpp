@@ -58,7 +58,7 @@ sharedDPtr loadSeats(const string &fileName, int &row, int &col, int &reserved) 
   
   sharedDPtr seats = make_shared<shared_ptr<int[]>[]>(row); // 2차원 배열 생성.
   for (int i = 0; i < row; i ++) {
-    seats[i] = make_unique<int[]>(col); // new int[col];
+    seats[i] = make_shared<int[]>(col); // new int[col];
     for (int j = 0; j < col; j++) {
       file >> seats[i][j];
       if (seats[i][j] != 0) {
