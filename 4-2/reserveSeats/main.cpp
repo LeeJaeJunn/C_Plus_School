@@ -12,7 +12,6 @@
 #endif
 
 using namespace std;
-// using uniqueDPtr = unique_ptr<unique_ptr<int[]>[]>;
 
 using sharedDPtr = shared_ptr<shared_ptr<int[]>[]>;
 
@@ -27,7 +26,6 @@ void saveSeat(
     const int row,
     const int col
 );
-// void deleteSeat(uniqueDPtr &seats, const int row, const int col);
 
 int main(void) {
   // 윈도우.
@@ -35,7 +33,6 @@ int main(void) {
   cout << "202112711 이제준" << endl;
   string fileName = "seats.txt";
   int row = 0, col = 0, reserved = 0;
-  // uniqueDPtr seats = loadSeats(fileName, row, col, reserved);
   sharedDPtr seats = loadSeats(fileName, row, col, reserved);
 
 
@@ -59,7 +56,6 @@ sharedDPtr loadSeats(const string &fileName, int &row, int &col, int &reserved) 
   }
   file >> row >> col;
   
-  // uniqueDPtr seats = make_unique<unique_ptr<int[]>[]>(row); // 2차원 배열 생성.
   sharedDPtr seats = make_shared<shared_ptr<int[]>[]>(row); // 2차원 배열 생성.
   for (int i = 0; i < row; i ++) {
     seats[i] = make_unique<int[]>(col); // new int[col];
