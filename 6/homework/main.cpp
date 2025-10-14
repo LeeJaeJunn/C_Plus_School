@@ -50,6 +50,9 @@ sharedDptr createBoard(int &row, int &col) {
       cin.clear();
       cin.ignore(1024, '\n');
       continue;
+    } else if (size <= 0) {
+      cout << "짝수를 입력해 주세요." << endl;
+      continue;
     } else if (size % 2 == 1) {
       cout << "짝수를 입력해 주세요." << endl;
       continue;
@@ -168,7 +171,7 @@ void inputBoard(sharedDptr &board, const int &row, const int &col, int &count) {
         cout << "범위가 잘못되었습니다." << endl;
         continue;
       } else if (board[r2][c2] < 0) {
-        cout << "이미 맞춘 카드입니다." << endl;
+        cout << "이미 뒤집은 카드입니다." << endl;
         continue;
       }
       board[r2][c2] = -board[r2][c2];
@@ -179,12 +182,12 @@ void inputBoard(sharedDptr &board, const int &row, const int &col, int &count) {
     if (board[r1][c1] == board[r2][c2]) {
       cout << "맞췄습니다! " << endl;
       count += 2;
-      printBoard(board, row, col);
+      // printBoard(board, row, col);
     } else {
       cout << "불일치..." << endl;
       board[r1][c1] = -board[r1][c1];
       board[r2][c2] = -board[r2][c2];
-      printBoard(board, row, col);
+      // printBoard(board, row, col);
     }
 
     if (count == row * col) {
@@ -192,9 +195,9 @@ void inputBoard(sharedDptr &board, const int &row, const int &col, int &count) {
       return;
     }
     // system("pause"); // window
-    system("read -n 1 -s -p \"Press any key to continue...\"");
+    system("read -n 1 -s -p \"Press any key to continue...\""); // 맥
     // system("cls"); // 윈도우
-    system("clear");
+    system("clear"); // 맥
   }
 }
 
