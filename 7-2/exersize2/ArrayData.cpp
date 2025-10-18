@@ -6,8 +6,8 @@ using namespace std;
 ArrayData::ArrayData():ArrayData(3) {}
 ArrayData::ArrayData(const int &capacity, const int &used):capacity(capacity), used(used) {
   cout << "생성자" << endl;
-  data = new double[this->capacity];
-  // data = make_unique<double[]>(this->capacity);
+  // data = new double[this->capacity];
+  data = make_unique<double[]>(this->capacity);
   // data = make_shared<double[]>(this->capacity);
 }
 ArrayData::ArrayData(ArrayData &arr):ArrayData(arr.capacity, arr.used) {
@@ -19,16 +19,14 @@ ArrayData::ArrayData(ArrayData &arr):ArrayData(arr.capacity, arr.used) {
 
 ArrayData::ArrayData(ArrayData &&arr) noexcept :capacity(arr.capacity), used(arr.used), data(move(arr.data)) { // unique 포인터의 경우 move 함수 사용.
   cout << "이동생성자" << endl;
-
-  data = arr.data;
-  arr.data = nullptr;
+  // arr.data = nullptr;
 }
 
 ArrayData::~ArrayData() {
-  if (data != nullptr) {
-    delete[] data;
-  }
-  data = nullptr;
+  // if (data != nullptr) {
+  //   delete[] data;
+  // }
+  // data = nullptr;
 }
 
 void ArrayData::addElement(const double &num) {
@@ -75,12 +73,8 @@ ArrayData& ArrayData::operator=(const ArrayData& rhs) {
   }
   this->capacity = rhs.capacity;
   this->used = rhs.used;
-  if (data != nullptr) {
-    delete[] data;
-  }
-  data = new double[capacity];
-  // data.reset(new double[capacity]);
-  // data = static_cast<shared_ptr<double[]>>(new double[capacity]);
+  data.reset(new double[capacity]);
+  //data = static_cast<shared_ptr<double[]>>(new double[capacity]);
   for (size_t i = 0; i < used; i++) {
     data[i] = rhs.data[i];
   }

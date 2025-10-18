@@ -5,8 +5,8 @@ using std::string;
 
 class Salesman {
   private:
-    string m_name;
-    double m_sales;
+    string name;
+    double sales;
 
   public:
     Salesman();
@@ -16,10 +16,9 @@ class Salesman {
     void setName(const string &name);
     string getName();
 
-
-    void setSales(const double &sales);
+    void setSales(const double &name);
     double getSales();
-    
+
     void readInput();
-    string getSalesmanInfo();
+    string getSalesInfo();
 };
