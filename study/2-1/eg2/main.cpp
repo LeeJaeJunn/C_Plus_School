@@ -86,8 +86,8 @@ void test7() {
   string str1("Hello");
   string str2{"World!"};
   cout << str1 << " " << str2 << endl; 
-  cout << str1.append(str2, 0, 5) << endl; // HelloWorld!
-  cout << str1.insert(5, " ") << endl; // Hello World!
+  cout << str1.append(str2, 0, 6) << endl; // HelloWorld!
+  cout << str1.insert(3, " ") << endl; // Hello World!
   cout << str1.erase(5, 7) << endl; // Hello (index 5 부터 10개 지우기.)
   cout << str1.replace(1, 4, "ELLO!") << endl; // HELLO (index 1부터 4개 문자를 지우고 ELLO 삽입)
 
@@ -187,7 +187,12 @@ int main(void) {
   // test7();
   // test8();
   // example1();
-  changeString();
+  // changeString();
+
+  string s1 = "asdasd";
+  string s2 = "qweqwe";
+  s1.append(s2);
+  cout << s1 << endl;
 
   return 0;
 }

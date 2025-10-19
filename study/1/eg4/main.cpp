@@ -59,8 +59,8 @@ void ex() {
 
 int main(void) {
   // test1();
-  // test2();
-  ex();
+  test2();
+  // ex();
 
   return 0;
 }

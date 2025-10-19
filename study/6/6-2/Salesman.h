@@ -20,7 +20,7 @@ class Salesman {
       return this->name; // 인라인 함수.
     }
     string getName() const {
-      return this->name; // const로 선언된 클래스에서만 접근 가능
+      return this->name; // const로 선언된 클래스에서 접근 가능
     }
 
     void setSales(const double &name);
