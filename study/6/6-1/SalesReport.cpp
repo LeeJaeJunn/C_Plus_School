@@ -4,7 +4,10 @@
 using namespace std;
 
 SalesReport::SalesReport(const int &number)
-  :number(number), averageSales(0.0), highestSales(0.0) ,team(make_shared<shared_ptr<Salesman>[]>(number)) {
+  :number(number), averageSales(0.0), highestSales(0.0),
+  // team(new Salesman*[number]) // 포인터 배열
+  team(make_shared<shared_ptr<Salesman>[]>(number)) 
+{
   cout << "팀 생성 완료" << endl; 
 }
 SalesReport::~SalesReport() {

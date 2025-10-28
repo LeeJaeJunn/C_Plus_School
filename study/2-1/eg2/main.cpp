@@ -139,7 +139,6 @@ void example1() {
     for (int j = 0; j < SIZE - 1 - i; j++) {
       if (names[j] > names[j + 1]) {
         swap(names[j], names[j + 1]);
-        
       }
     }
   }
