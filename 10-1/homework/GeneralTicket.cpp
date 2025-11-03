@@ -10,7 +10,7 @@ GeneralTicket::GeneralTicket(const double &price, const bool &payByCredit)
 GeneralTicket::~GeneralTicket() {}
 
 double GeneralTicket::getPrice() const {
-  return price;
+  return (payByCredit ? price * 1.1 : price);
 }
 bool GeneralTicket::getPayByCredit() const {
   return payByCredit;
@@ -18,5 +18,5 @@ bool GeneralTicket::getPayByCredit() const {
 void GeneralTicket::show() const {
   Ticket::show();
   cout << "카드결제여부: " << (payByCredit ? "true" : "false") << endl;
-  cout << "지불금액: " << (payByCredit ? price * 1.1 : price) << endl;
+  cout << "지불금액: " << getPrice() << endl;
 }
