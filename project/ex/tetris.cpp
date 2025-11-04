@@ -104,24 +104,24 @@ int main()
 	int i;
 	int is_gameover=0;
 	char keytemp;
-	init();
-	show_logo();
+	init(); // 초기화.
+	show_logo(); // 초기 화면
 	while(1)
 	{
 		
-		input_data();
-		show_total_block();
-		block_shape = make_new_block();
-		next_block_shape = make_new_block();
-		show_next_block(next_block_shape);
-		block_start(block_shape,&block_angle,&block_x,&block_y);
-		show_gamestat();
+		input_data(); // 초기화면. gamelevel 설정
+		show_total_block(); // 전체 게임화면 보여줌
+		block_shape = make_new_block(); // 내려오는 블록
+		next_block_shape = make_new_block(); // 다음 블록
+		show_next_block(next_block_shape); // 다음 블록 화면에 표시
+		block_start(block_shape,&block_angle,&block_x,&block_y); // 블록 위치, 각도 초기설정
+		show_gamestat(); // stage, 점수, 클리어 Line 표시
 		for(i=1;1;i++)
 		{
-			if(_kbhit())
+			if(_kbhit()) // 키보드 입력 버퍼 확인. window
 			{
-				keytemp = _getche();
-				if(keytemp == EXT_KEY)
+				keytemp = _getche(); // 버퍼에서 눌린 키를 가져옴
+				if(keytemp == EXT_KEY) // 상하좌우키 
 				{
 					keytemp = _getche();
 					switch(keytemp)
@@ -163,7 +163,7 @@ int main()
 						break;
 					}
 				}
-				if(keytemp == 32 )	//스페이스바를 눌렀을때
+				if(keytemp == 32 )	//스페이스바를 눌렀을때. 블록 제일 밑으로 바로이동
 				{
 					while(is_gameover == 0)
 					{
@@ -348,7 +348,7 @@ int erase_cur_block(int shape,int angle,int x,int y)
 
 
 
-int show_total_block()
+int show_total_block() // 전체 게임화면 보여줌
 {
 	int i,j;
 	SetColor(DARK_GRAY);
@@ -434,7 +434,6 @@ int merge_block(int shape,int angle,int x,int y)
 
 int block_start(int shape,int* angle,int* x,int* y)
 {
-	
 	*x = 5;
 	*y = -3;
 	*angle = 0;
@@ -538,10 +537,10 @@ int show_next_block(int shape)
 {
 	int i,j;
 	SetColor((level+1)%6+1);
-	for(i=1;i<7;i++)
+	for(i=1; i<7; i++)
 	{
 		gotoxy(33,i);
-		for(j=0;j<6;j++)
+		for(j=0; j<6; j++)
 		{
 			if(i==1 || i==6 || j==0 || j==5)
 			{
