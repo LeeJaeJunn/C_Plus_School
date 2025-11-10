@@ -4,6 +4,10 @@
 #include <Windows.h>
 #include <time.h>
 
+#include <iostream>
+
+using namespace std;
+
 //*********************************
 //상수 선언
 //*********************************
