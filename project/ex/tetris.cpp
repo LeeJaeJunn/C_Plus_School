@@ -91,12 +91,13 @@ int strike_check(int shape,int angle,int x,int y);	//블럭이 화면 맨 아래
 int merge_block(int shape,int angle,int x,int y);	//블럭이 바닥에 닿았을때 진행중인 블럭과 쌓아진 블럭을 합침
 int block_start(int shape,int* angle,int* x,int* y);	//블럭이 처음 나올때 위치와 모양을 알려줌
 int move_block(int* shape,int* angle,int* x,int* y,int* next_shape);	//게임오버는 1을리턴 바닥에 블럭이 닿으면 2를 리턴
+
 int rotate_block(int shape,int* angle,int* x,int* y);
 int show_gameover();
 int show_gamestat();
 int show_logo();
 int input_data();
-int check_full_line();	
+int check_full_line();
 
 
 int main()
@@ -120,28 +121,28 @@ int main()
 		{
 			if(_kbhit()) // 키보드 입력 버퍼 확인. window
 			{
-				keytemp = _getche(); // 버퍼에서 눌린 키를 가져옴
+				keytemp = _getche(); // 버퍼에서 눌린 키를 가져옴. 화살표키는 EXT_KEY가 들어옴
 				if(keytemp == EXT_KEY) // 상하좌우키 
 				{
-					keytemp = _getche();
+					keytemp = _getche(); // EXT_KEY 중 어떤것인지 확인.
 					switch(keytemp)
 					{
 					case KEY_UP:		//회전하기
 						
-						if(strike_check(block_shape,(block_angle+1)%4,block_x,block_y) == 0)
+						if(strike_check(block_shape,(block_angle+1)%4,block_x,block_y) == 0) // 충돌 검사
 						{
-							erase_cur_block(block_shape,block_angle,block_x,block_y);
+							erase_cur_block(block_shape,block_angle,block_x,block_y); // 블럭을 지움
 							block_angle = (block_angle+1)%4;
-							show_cur_block(block_shape,block_angle,block_x,block_y);
+							show_cur_block(block_shape,block_angle,block_x,block_y); // 바뀐 블럭 표시
 						}
 						break;
 					case KEY_LEFT:		//왼쪽으로 이동
-						if(block_x>1)
+						if(block_x>1) // 왼쪽으로 갈 수 있는지
 						{
 							erase_cur_block(block_shape,block_angle,block_x,block_y);
 							block_x--;
-							if(strike_check(block_shape,block_angle,block_x,block_y) == 1)
-								block_x++;
+							if(strike_check(block_shape,block_angle,block_x,block_y) == 1) // 충돌 확인
+								block_x++; // 이동 취소
 							
 							show_cur_block(block_shape,block_angle,block_x,block_y);
 						}
@@ -165,14 +166,14 @@ int main()
 				}
 				if(keytemp == 32 )	//스페이스바를 눌렀을때. 블록 제일 밑으로 바로이동
 				{
-					while(is_gameover == 0)
+					while(is_gameover == 0) // while문 돌면서 가능할 떄까지 내림
 					{
 						is_gameover = move_block(&block_shape,&block_angle,&block_x,&block_y,&next_block_shape);
 					}
 					show_cur_block(block_shape,block_angle,block_x,block_y);
 				}
 			}
-			if(i%stage_data[level].speed == 0)
+			if(i%stage_data[level].speed == 0) // 일정 시간 지날떄마다 실행.
 			{
 				is_gameover = move_block(&block_shape,&block_angle,&block_x,&block_y,&next_block_shape);
 				
@@ -210,7 +211,7 @@ int gotoxy(int x,int y)
 	return 0;
 }
 
-void SetColor(int color) 
+void SetColor(int color)  // 실행하고 바로 다음 출력은 해당 color로.
 { 
 	static HANDLE std_output_handle=GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(std_output_handle, color); 
@@ -327,7 +328,7 @@ int show_cur_block(int shape,int angle,int x,int y) // 현재 떨어지고 있�
 	return 0;
 }
 
-int erase_cur_block(int shape,int angle,int x,int y)
+int erase_cur_block(int shape,int angle,int x,int y) // 화면에서 블럭을 지움
 {
 	int i,j;
 	for(i=0;i<4;i++)
@@ -401,13 +402,13 @@ int strike_check(int shape,int angle,int x,int y)
 	{
 		for(j=0;j<4;j++)
 		{
-			if(  ((x+j) == 0)  || ((x+j) == 13) )
+			if(  ((x+j) == 0)  || ((x+j) == 13) ) // 4*4 블록 사각형이 왼쪽 벽 or 오른쪽 벽에 충돌 검사
 				block_dat = 1;
 			else
-				block_dat = total_block[y+i][x+j];
+				block_dat = total_block[y+i][x+j]; // 바닥 or 다른 블록에 닿았는지 검사
 			
 			
-			if((block_dat == 1) && (block[shape][angle][i][j] == 1))																							//좌측벽의 좌표를 빼기위함
+			if((block_dat == 1) && (block[shape][angle][i][j] == 1)) // 블록이 채워져있는 부분이 벽에 충돌했는지 확인
 			{
 				return 1;
 			}
@@ -432,7 +433,7 @@ int merge_block(int shape,int angle,int x,int y)
 	return 0;
 }
 
-int block_start(int shape,int* angle,int* x,int* y)
+int block_start(int shape,int* angle,int* x,int* y) // 블록 초기설정
 {
 	*x = 5;
 	*y = -3;
@@ -476,10 +477,10 @@ int move_block(int* shape,int* angle,int* x,int* y,int* next_shape)
 		}
 		(*y)--;
 		merge_block(*shape,*angle,*x,*y);
-		*shape = *next_shape;
+		*shape = *next_shape; // 
 		*next_shape = make_new_block();
 		
-		block_start(*shape,angle,x,y);	//angle,x,y는 포인터임
+		block_start(*shape,angle,x,y);	//angle,x,y는 포인터임. 블록 초기화
 		show_next_block(*next_shape);
 		return 2;
 	}
@@ -504,27 +505,27 @@ int check_full_line()
 		if(j == 13)	//한줄이 다 채워졌음
 		{
 			lines++;
-			show_total_block();
+			show_total_block(); // 이거 왜하는거지? 필요없을듯.
 			SetColor(BLUE);
 			gotoxy(1*2+ab_x,i+ab_y);
-			for(j=1;j<13;j++)
+			for(j=1;j<13;j++) // 애니매이션.
 			{
 				printf("□");
 				Sleep(10);
 			}
 			gotoxy(1*2+ab_x,i+ab_y);
-			for(j=1;j<13;j++)
+			for(j=1;j<13;j++) // 지우기
 			{
 				printf("  ");
 				Sleep(10);
 			}
 
-			for(k=i;k>0;k--)
+			for(k=i;k>0;k--) // 밑으로 내리기.
 			{
 				for(j=1;j<13;j++)
 					total_block[k][j] = total_block[k-1][j];
 			}
-			for(j=1;j<13;j++)
+			for(j=1;j<13;j++) // 제일 윗줄 지우기.
 				total_block[0][j] = 0;
 			score+= 100+(level*10) + (rand()%10);
 			show_gamestat();
@@ -557,7 +558,7 @@ int show_next_block(int shape)
 
 int show_gamestat()
 {
-	static int printed_text=0;
+	static int printed_text=0; // 현재 매번 다시 if문 안에 그림. printed_text = 1 로 대입해야함
 	SetColor(GRAY);
 	if(printed_text == 0)
 	{
@@ -569,8 +570,8 @@ int show_gamestat()
 
 		gotoxy(35,12);
 		printf("LINES");
-		
 
+		printed_text = 1;
 	}
 	gotoxy(41,7);
 	printf("%d",level+1);
@@ -607,11 +608,16 @@ int input_data()
 	printf("┗━━━━━━━━━━━━━━┛");
 
 	
-	while(i<1 || i>8)
-	{
+	while(i<1 || i>8) {
 		gotoxy(10,3);
 		printf("Select Start level[1-8]:       \b\b\b\b\b\b\b");
-		scanf_s("%d",&i);
+		// scanf_s("%d",&i);
+		cin >> i;
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(1024, '\n')
+			continue;
+		}
 	}
 	
 	
