@@ -660,7 +660,7 @@ int show_logo() // 초기 화면.
 			
 			for(j=0;j<5;j++)
 			{
-				gotoxy(18,14+j);
+				gotoxy(17,14+j);
 				printf("                                                          ");
 				
 				
