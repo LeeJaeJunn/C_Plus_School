@@ -113,14 +113,14 @@ int main()
 	show_logo(); // 초기 화면
 	while(1)
 	{
-		
+
 		input_data(); // 초기화면. gamelevel 설정
 		show_total_block(); // 전체 게임화면 보여줌
 		block_shape = make_new_block(); // 내려오는 블록
 		next_block_shape = make_new_block(); // 다음 블록
 		show_next_block(next_block_shape); // 다음 블록 화면에 표시
 		block_start(block_shape,&block_angle,&block_x,&block_y); // 블록 위치, 각도 초기설정
-		show_gamestat(); // stage, 점수, 클리어 Line 표시
+		show_gamestat(0); // stage, 점수, 클리어 Line 표시
 		for(i=1;1;i++)
 		{
 			if(_kbhit()) // 키보드 입력 버퍼 확인. window
@@ -560,9 +560,9 @@ int show_next_block(int shape)
 	return 0;
 }
 
-int show_gamestat()
+int show_gamestat(int printed_text = 1)
 {
-	static int printed_text=0; // 현재 매번 다시 if문 안에 그림. printed_text = 1 로 대입해야함
+	// static int printed_text=0;
 	SetColor(GRAY);
 	if(printed_text == 0)
 	{
@@ -575,7 +575,6 @@ int show_gamestat()
 		gotoxy(35,12);
 		printf("LINES");
 
-		printed_text = 1;
 	}
 	gotoxy(41,7);
 	printf("%d",level+1);
