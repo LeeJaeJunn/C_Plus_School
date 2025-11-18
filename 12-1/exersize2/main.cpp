@@ -17,7 +17,7 @@ int main(void) {
   for (int i = 0; i < 5; i++) {
     // arr.push_back(CMyPoint(i * 10, i * 10));
 
-    // 객체에서 내부적으로 CMyPoint 생성자를 호출해서 사용
+    // 객체에서 내부적으로 CMyPoint 생성자를 호출해서 사용. 객체를 직접 생성해서 넣음
     arr.emplace_back(i * 10, i * 10);
     cout << endl << endl;
   }
