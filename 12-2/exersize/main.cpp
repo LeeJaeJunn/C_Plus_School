@@ -27,8 +27,6 @@ int main(void) {
 }
 
 list<string> getStudent(list<list<string>> std, list<string> droplist) {
-  // getStudent 함수 구현하기 과제.
-  // 중복제거, 오름차순 정렬, list반환.
   list<string> student;
   for(auto &i: std) {
     student.insert(student.end(), i.begin(), i.end());
