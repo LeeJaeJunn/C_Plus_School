@@ -22,7 +22,7 @@ int main(void) {
 
   auto student = getStudent(std, droplist);
   printArr(student);
-  // bluejoa2 greenjoa1 greenjoa3 redjoa1 순으로 출력되어야 함
+  
   return 0;
 }
 
